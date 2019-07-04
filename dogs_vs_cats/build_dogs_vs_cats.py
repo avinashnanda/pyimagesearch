@@ -1,5 +1,5 @@
 # import the necessary packages
-from config import dogs_vs_cats_config as config
+from dogs_vs_cats.config import dogs_vs_cats_config as config
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from pyimagesearch.preprocessing import AspectAwarePreprocessor
@@ -101,4 +101,4 @@ f = open(config.DATASET_MEAN, "w")
 f.write(json.dumps(D))
 f.close()
 
-#$ python build_dogs_vs_cats.py
+# $ python build_dogs_vs_cats.py
