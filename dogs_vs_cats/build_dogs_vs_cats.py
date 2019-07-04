@@ -2,8 +2,8 @@
 from dogs_vs_cats.config import dogs_vs_cats_config as config
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from pyimagesearch.preprocessing import AspectAwarePreprocessor
-from pyimagesearch.io import HDF5DatasetWriter
+from pyimagesearch.preprocessing.AspectAwarePreprocessor import AspectAwarePreprocessor
+from pyimagesearch.io.HDF5DatasetWriter import HDF5DatasetWriter
 from imutils import paths
 import numpy as np
 import progressbar
@@ -13,8 +13,7 @@ import os
 
 # grab the paths to the images
 trainPaths = list(paths.list_images(config.IMAGES_PATH))
-trainLabels = [p.split(os.path.sep)[2].split(".")[0]
-               for p in trainPaths]
+trainLabels = [p.split(os.path.sep)[1].split(".")[0] for p in trainPaths]
 le = LabelEncoder()
 trainLabels = le.fit_transform(trainLabels)
 # perform stratified sampling from the training set to build the
@@ -56,20 +55,19 @@ for (dType, paths, labels, outputPath) in datasets:
     # create HDF5 writer
     print("[INFO] building {}...".format(outputPath))
     writer = HDF5DatasetWriter((len(paths), 256, 256, 3), outputPath)
-
     # initialize the progress bar
     widgets = ["Building Dataset: ", progressbar.Percentage(), " ",
                progressbar.Bar(), " ", progressbar.ETA()]
     pbar = progressbar.ProgressBar(maxval=len(paths),
                                    widgets=widgets).start()
 
-    # we start looping over each of the 4-tuple values in the datasets list. For each data split,
-    # we instantiate the HDF5DatasetWriter on Line 52. Here the dimensions of the output dataset will be the (len(paths),
-    # 256, 256, 3), implying there are len(paths) total images, each of them with a width of 256 pixels, a height of 256
-    # pixels, and 3 channels.then initialize our progress bar so we can easily monitor the process of the
-    # dataset generation. Again, this code block (along with the rest of the progressbar function calls) is entirely
-    # optional, so feel free to comment them out if you so wish. Next, let’s write each image in a given data split to
-    # the writer:
+    # we start looping over each of the 4-tuple values in the datasets list. For each data split, we instantiate the
+    # HDF5DatasetWriter on Line 52. Here the dimensions of the output dataset will be the (len(paths), 256, 256, 3),
+    # implying there are len(paths) total images, each of them with a width of 256 pixels, a height of 256 pixels,
+    # and 3 channels.then initialize our progress bar so we can easily monitor the process of the dataset generation.
+    # Again, this code block (along with the rest of the progressbar function calls) is entirely optional,
+    # so feel free to comment them out if you so wish. Next, let’s write each image in a given data split to the
+    # writer:
 
     # loop over the image paths
     for (i, (path, label)) in enumerate(zip(paths, labels)):
@@ -85,7 +83,6 @@ for (dType, paths, labels, outputPath) in datasets:
             R.append(r)
             G.append(g)
             B.append(b)
-
         # add the image and label # to the HDF5 dataset
         writer.add([image], [label])
         pbar.update(i)
