@@ -88,8 +88,9 @@ for (dType, paths, labels, outputPath) in datasets:
         pbar.update(i)
 
         # close the HDF5 writer
-        pbar.finish()
-        writer.close()
+    pbar.finish()
+    writer.close()
+
 
 # construct a dictionary of averages, then serialize the means to a JSON file
 print("[INFO] serializing means...")
