@@ -88,4 +88,4 @@ model.fit_generator(aug.flow(trainX, trainY, batch_size=64),
 print("[INFO] serializing network...")
 model.save(args["model"])
 
-#$ python googlenet_cifar10.py --output output \ --model output/minigooglenet_cifar10.hdf5
+# $ python googlenet_cifar10.py --output output \ --model output/minigooglenet_cifar10.hdf5
